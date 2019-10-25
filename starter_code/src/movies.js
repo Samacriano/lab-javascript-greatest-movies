@@ -64,11 +64,31 @@ function orderAlphabetically(arr) {
 
 // Iteration 6: Time Format - Turn duration of the movies from hours to minutes
 function turnHoursToMinutes(movieLength) {
-    const total = movieLength.map((value, index, originalArray) => {
-        return value.duration;
-      }, 0)
+        const total = movieLength.map((value, index, originalArray) => {
+        return {duration: value.duration};
+      });
+//console.log(total);
+      const minsArray = total.map((value, index, originalArray) => {
+          let totalMin = 0;
+          let durationSplit = value.duration.split(' ');
+          //console.log("split", durationSplit);
+          for (let i = 0; i < durationSplit.length; i++){
+              if(durationSplit[i].includes('h')){
+                  totalMin += parseInt(durationSplit[i])*60;
+              } else {
+                  totalMin += parseInt(durationSplit[i]);
+              }
+          }
+          return {duration: totalMin};
 
+      });
 
+      console.log("HERE",minsArray);
+
+        // let parsed = parseInt('h');
+        // if (isNaN(parsed)) { return 0 }
+        // return parsed * 60;
+      return minsArray;
 }
 
 console.log(turnHoursToMinutes(MOVIES));
