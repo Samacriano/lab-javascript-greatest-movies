@@ -19,7 +19,7 @@ function calculateAverageMovieRate(arr) {
 // Iteration 2: Drama movies - Get the average of Drama Movies
 function calculateAverageDramaRate (drama){
     let dramaMovies = drama.filter((movie) => {
-        if (movie.genre[0].toLowerCase() === 'drama'){
+        if (movie.genre.indexOf('Drama') > -1){
             return true
         } 
     });
@@ -83,7 +83,7 @@ function turnHoursToMinutes(movieLength) {
 
       });
 
-      console.log("HERE",minsArray);
+      //console.log("HERE",minsArray);
 
         // let parsed = parseInt('h');
         // if (isNaN(parsed)) { return 0 }
@@ -107,3 +107,38 @@ console.log(turnHoursToMinutes(MOVIES));
 //    }
 
 // console.log(bestYearAvg(MOVIES));
+
+// TRY TO COMBINE THE FIRST THE AND SECONF ITERTIONS TO RESOLVE THE BONUS
+function bestYearAvg(movies) {
+    if (!movies.length) return null;
+    const movieRatesByYear = movies.reduce((accumulator, movie) => {
+      const { year, rate } = movie;
+      if (!accumulator[year]) {
+        accumulator[year] = [];
+      }
+      accumulator[year].push(rate);
+      return accumulator;
+    }, {});
+    const bestYearRateCombo = Object.entries(movieRatesByYear)
+      .map(item => {
+        const year = item[0];
+        const rateArray = item[1];
+        const averageRate = rateArray.reduce((sum, value) => {
+          return sum + value / rateArray.length;
+        }, 0);
+        return { year, averageRate };
+      })
+      .reduce((bestItem, item) => {
+        if (typeof bestItem === 'undefined' || item.averageRate > bestItem.averageRate) {
+          return item;
+        } else {
+          return bestItem;
+        }
+      });
+    return `The best year was ${bestYearRateCombo.year} with an average rate of ${bestYearRateCombo.averageRate}`;
+  };
+
+
+
+
+
